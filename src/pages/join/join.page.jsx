@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import "./join.styles.css"
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +33,7 @@ export const Join = () => {
   let jitsiConference;
 
   //emulating ComponentDidMount
-  useEffect(() => {
+  React.useEffect(() => {
     window.JitsiMeetJS.mediaDevices.enumerateDevices((devices) => {
       let newDeviceList = [];
       for(let device of devices){
@@ -46,9 +46,13 @@ export const Join = () => {
 
       dispatch(setDeviceList(newDeviceList));
       
-      let micId = (_.find(newDeviceList, (device) => { return device.type === 'audioinput' && device.id.length > 15}) || {}).id || 'none';
-      let videoId = (_.find(newDeviceList, (device) => { return device.type === 'videoinput' && device.id.length > 15}) || {}).id || 'none';
-      let speakerId = (_.find(newDeviceList, (device) => { return device.type === 'audioinput' && device.id.length > 15}) || {}).id || 'none';
+      // let micId = (_.find(newDeviceList, (device) => { return device.type === 'audioinput' && device.id.length > 15}) || {}).id || 'none';
+      // let videoId = (_.find(newDeviceList, (device) => { return device.type === 'videoinput' && device.id.length > 15}) || {}).id || 'none';
+      // let speakerId = (_.find(newDeviceList, (device) => { return device.type === 'audioinput' && device.id.length > 15}) || {}).id || 'none';
+
+      let micId = (_.find(newDeviceList, { type: 'audioinput' }) || {}).id || 'none';
+      let videoId = (_.find(newDeviceList, { type: 'videoinput' }) || {}).id || 'none';
+      let speakerId = (_.find(newDeviceList, { type: 'audiooutput' }) || {}).id || 'none';
 
       dispatch(setMicId(micId));
       dispatch(setVideoId(videoId));
