@@ -1,6 +1,62 @@
-import { SET_PAGE } from './video.actions.types';
+import { 
+  SET_PAGE,
+  SET_MEETING_CODE,
+  SET_DEVICE_LIST,
+  SET_MIC_ID,
+  SET_VIDEO_ID,
+  SET_SPEAKER_ID,
+  SET_CONNECTION,
+  SET_CONFERENCE,
+  SET_LOCAL_TRACKS,
+  SET_REMOTE_TRACKS
+} from './video.actions.types';
 
 export const setPage = page => ({
   type: SET_PAGE,
   payload: page
+});
+
+export const setMeetingcode = code => ({
+  type: SET_MEETING_CODE,
+  payload: code
+});
+
+export const setDeviceList = deviceList => ({
+  type: SET_DEVICE_LIST,
+  payload: deviceList
+});
+
+export const setMicId = micId => ({
+  type: SET_MIC_ID,
+  payload: micId
+});
+
+export const setVideoId = videoId => ({
+  type: SET_VIDEO_ID,
+  payload: videoId
+});
+
+export const setSpeakerId = speakerId => ({
+  type: SET_SPEAKER_ID,
+  payload: speakerId
+});
+
+export const setConnection = connection => ({
+  type: SET_CONNECTION,
+  payload: connection
+});
+
+export const setConference = conference => ({
+  type: SET_CONFERENCE,
+  payload: conference
+});
+
+export const setLocalTracks = localTracks => ({
+  type: SET_LOCAL_TRACKS,
+  payload: localTracks
+});
+
+export const setRemoteTracks = remoteTracks => ({
+  type: SET_REMOTE_TRACKS,
+  payload: remoteTracks
 });

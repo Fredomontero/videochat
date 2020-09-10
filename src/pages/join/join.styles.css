@@ -1,0 +1,44 @@
+.join-container{
+  border: 5px solid #71bc78;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.video-section{
+  border: 1px solid black;
+  border: 1px solid #daa520;
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.conference-info{
+  border: 1px solid black;
+  border: 1px solid #daa520;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.video-component{
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+  height: 50%;
+  text-align: center;
+}
+
+.join-button{
+  background-color: #29ab87;
+  border: none;
+  margin-top: 15px;
+  color: #ffffff;
+  height: 30px;
+  width: 20%;
+}

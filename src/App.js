@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { render } from '@testing-library/react';
 import { useSelector } from 'react-redux'
 import { Home } from "./pages/home/home.page";
 import { Join } from "./pages/join/join.page";

@@ -12,9 +12,27 @@
   height: 40vh;
   border: 1px solid #000;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .input-form{
   width: 100%;
   box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+.start-meeting{
+  background-color: #007aa5;
+  color: white;
+  border: none;
+}
+
+.join-meeting{
+  background-color: #50c878;
+  color: white;
+  border: none;
 }
