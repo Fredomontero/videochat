@@ -25,9 +25,18 @@ export const LocalVideo = () => {
       for(let track of tracks){
         if( _.indexOf(devicesIds, track.deviceId) !== -1 ){
           setTempLocalTracks( previousState => [...previousState, track] );
+          conference.addTrack(track);
         }
       }
     });
+    return () => {
+      for(let track of tempLocalTracks){
+        console.log("***********************");
+        console.log("REMOVING TRACK: ", track);
+        console.log("***********************");
+        updateLocalTrack(track, 'CLEAR');
+      }
+    }
   }, []);
 
   React.useEffect(() => {
@@ -41,7 +50,21 @@ export const LocalVideo = () => {
   //Method for updating local tracks
   const updateLocalTrack = (track, action = 'CLEAR') => {
     if(action === "CLEAR"){
-      console.log("Clearing Local Track");
+      switch(track.type){
+        case 'audio':
+          if(micRef.current){
+            track.detach(micRef.current);
+            track.removeEventListener(window.JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED, onTrackStoppedEvent);
+            track.removeEventListener(window.JitsiMeetJS.events.track.TRACK_AUDIO_OUTPUT_CHANGED, onTrackAudioOutputChangedEvent);
+            track.dispose();
+          }
+          break;
+        case 'video':
+          if(videoRef.current){
+            track.detach(videoRef.current);
+            track.dispose();
+          }
+      }
     }else{
       switch(track.type){
         case 'audio':
@@ -72,9 +95,8 @@ export const LocalVideo = () => {
 
   return(
     <div className="localv-container">
-      This is the LocalVideo component
       <video className="video-component" autoPlay='1' ref={videoRef}/>
-      <audio className="audio-component" autoPlay='1' muted={true} ref={micRef} />
+      {/* <audio className="audio-component" autoPlay='1' muted={true} ref={micRef} /> */}
     </div>
   )
 };

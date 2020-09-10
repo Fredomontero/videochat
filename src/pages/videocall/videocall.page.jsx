@@ -7,9 +7,14 @@ export const VideoCall = () => {
 
   return(
     <div className="videocall-container">
-      <h2 className="video-call-title">This is the video call page</h2>
-      <LocalVideo/>
-      <RemoteVideo/>
+      <div className="floating-local-video"><LocalVideo/></div>
+      <div className="videocall-body">
+        <div className="remote-videos">
+          <RemoteVideo/>
+        </div>
+      </div>
+      <div className="videocall-footer">
+      </div>
     </div>
   )
 };

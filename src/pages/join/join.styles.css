@@ -26,7 +26,7 @@
   flex-direction: column;
 }
 
-.video-component{
+.video-container{
   background-color: #000000;
   color: #ffffff;
   width: 100%;

@@ -109,9 +109,9 @@ export const Join = () => {
 
   //Event handler for added tracks
   const onRoomTrackAdded = (track) => {
-    console.log("***********************");
+    console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
     console.log("Inside onRoomTrackAdded");
-    console.log("***********************");
+    console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
     if(track.isLocal() === true){
       addTrack(localTracks, track);
     }else{
@@ -137,8 +137,19 @@ export const Join = () => {
 
     if(track.isLocal() === true)
       dispatch(setLocalTracks([...localTracks, trackInfo]));
-    else
-      dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
+    else{
+      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
+      console.log("Adding remote Track");
+      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
+      let tracks = remoteTracks[trackInfo.participantId];
+      if(tracks !== undefined){
+        tracks = [...tracks, trackInfo];
+        dispatch(setRemoteTracks([...remoteTracks, {[trackInfo.participantId]: tracks }]));
+      }else{
+        dispatch(setRemoteTracks([...remoteTracks, {[trackInfo.participantId]: tracks }]));
+      }
+      // dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
+    }
   };
 
   //Event handler for removed tracks
@@ -164,7 +175,7 @@ export const Join = () => {
   return(
     <div className="join-container">
       <div className="video-section">
-        <div className="video-component">
+        <div className="video-container">
           {
             isLoaded ? (
               <LocalVideo/>
