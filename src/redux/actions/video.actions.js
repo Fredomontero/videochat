@@ -8,7 +8,8 @@ import {
   SET_CONNECTION,
   SET_CONFERENCE,
   SET_LOCAL_TRACKS,
-  SET_REMOTE_TRACKS
+  SET_REMOTE_TRACKS,
+  SET_ACTIVE_ROOM_ID
 } from './video.actions.types';
 
 export const setPage = page => ({
@@ -59,4 +60,9 @@ export const setLocalTracks = localTracks => ({
 export const setRemoteTracks = remoteTracks => ({
   type: SET_REMOTE_TRACKS,
   payload: remoteTracks
+});
+
+export const setActiveRoomId = roomId => ({
+  type: SET_ACTIVE_ROOM_ID,
+  payload: roomId
 });

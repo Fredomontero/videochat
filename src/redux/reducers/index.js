@@ -8,7 +8,8 @@ import {
   SET_CONNECTION,
   SET_CONFERENCE,
   SET_LOCAL_TRACKS,
-  SET_REMOTE_TRACKS
+  SET_REMOTE_TRACKS,
+  SET_ACTIVE_ROOM_ID
 } from "../actions/video.actions.types";
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
   connection: null,
   conference: null,
   localTracks: [],
-  remoteTracks: []
+  remoteTracks: [],
+  activeRoomId: null,
 };
 
 function rootReducer(state = initialState, action){
@@ -87,13 +89,15 @@ function rootReducer(state = initialState, action){
         remoteTracks: action.payload,
         error: null 
       };
+    case SET_ACTIVE_ROOM_ID:
+      return{
+        ...state,
+        activeRoomId: action.payload,
+        error: null 
+      };
     default:
       return state;
   }
 };
 
 export default rootReducer;
-
-
-  
-  

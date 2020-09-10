@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import _ from 'lodash';
 import "./join.styles.css"
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid'
 import { 
   setPage,
   setDeviceList,
@@ -10,8 +11,11 @@ import {
   setSpeakerId,
   setConnection,
   setConference,
-  setRemoteTracks
+  setRemoteTracks,
+  setLocalTracks,
+  setActiveRoomId
 } from "../../redux/actions/video.actions";
+import { LocalVideo } from "../../components/localvideo/localvideo.component";
 
 export const Join = () => {
 
@@ -22,6 +26,11 @@ export const Join = () => {
   const connection = useSelector(state => state.connection);
   const localTracks = useSelector(state => state.localTracks);
   const remoteTracks = useSelector(state => state.remoteTracks);
+  const activeRoomId = useSelector(state => state.activeRoomId);
+  const [ isLoaded, setIsLoaded ] = React.useState(false);
+
+  let jitsiConnection;
+  let jitsiConference;
 
   //emulating ComponentDidMount
   useEffect(() => {
@@ -61,7 +70,7 @@ export const Join = () => {
       clientNode: `https://${serverURL}`
     }
     
-    const jitsiConnection = new window.JitsiMeetJS.JitsiConnection(null, null, connectionOptions);
+    jitsiConnection = new window.JitsiMeetJS.JitsiConnection(null, null, connectionOptions);
 
     jitsiConnection.addEventListener(window.JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED, onConnectionSuccess);
     jitsiConnection.addEventListener(window.JitsiMeetJS.events.connection.CONNECTION_FAILED, onConnectionFailed);
@@ -78,13 +87,16 @@ export const Join = () => {
     const conferenceOptions = {
       openBridgeChannel: true
     };
+    
 
     try{
-      const jitsiConference = connection.initJitsiConference(meetingCode, conferenceOptions);
+      jitsiConference = jitsiConnection.initJitsiConference(meetingCode, conferenceOptions);
       jitsiConference.addEventListener(window.JitsiMeetJS.events.conference.TRACK_ADDED, onRoomTrackAdded);
       jitsiConference.addEventListener(window.JitsiMeetJS.events.conference.TRACK_REMOVED, onRoomTrackRemoved);
       jitsiConference.join();
       dispatch(setConference(jitsiConference));
+      dispatch(setActiveRoomId(uuidv4()));
+      setIsLoaded(true);
     }catch(error){
       //need to save this in a state property
       console.log("Error: ", error);
@@ -93,12 +105,21 @@ export const Join = () => {
 
   //Event handler for added tracks
   const onRoomTrackAdded = (track) => {
+    console.log("***********************");
+    console.log("Inside onRoomTrackAdded");
+    console.log("***********************");
     if(track.isLocal() === true){
-      return;
+      addTrack(localTracks, track);
+    }else{
+      addTrack(remoteTracks, track);
     }
+  };
+
+  const addTrack = (tracks, track) => {
     
     let newTrackId = track.getId();
-    let matchTrack = _.find(remoteTracks, {id: newTrackId});
+    
+    let matchTrack = _.find(tracks, {id: newTrackId});
     if(matchTrack){
       return;
     }
@@ -110,8 +131,10 @@ export const Join = () => {
       track: track
     }
 
-    dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
-
+    if(track.isLocal() === true)
+      dispatch(setLocalTracks([...localTracks, trackInfo]));
+    else
+      dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
   };
 
   //Event handler for removed tracks
@@ -137,7 +160,15 @@ export const Join = () => {
   return(
     <div className="join-container">
       <div className="video-section">
-        <div className="video-component">This is the video Component</div>
+        <div className="video-component">
+          {
+            isLoaded ? (
+              <LocalVideo/>
+            ):(
+              <div>Loading...</div>
+            )
+          }
+        </div>
       </div>
       <div className="conference-info">
         <h3>Conference Info</h3>
