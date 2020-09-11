@@ -28,7 +28,6 @@ export const Join = () => {
   const remoteTracks = useSelector(state => state.remoteTracks);
   const activeRoomId = useSelector(state => state.activeRoomId);
   const [ isLoaded, setIsLoaded ] = React.useState(false);
-  const [ rmtTracks, setRmtTracks ] = React.useState([]);
 
   let jitsiConnection;
   let jitsiConference;
@@ -63,23 +62,6 @@ export const Join = () => {
 
     })
   }, []);
-
-  //Method to group remote tracks
-  React.useEffect(() => {
-    let size = rmtTracks.length;
-    if(size > 0){
-      console.log('%c ***********************', 'background: #3cd070; color: #ffffff');
-      console.log("REMOTE TRACKS");
-      console.log("Just add: ", rmtTracks[size-1]);
-      console.log('%c ***********************', 'background: #3cd070; color: #ffffff');
-      if(size%2 === 0){
-        console.log('%c ***********************', 'background: #8878c3; color: #ffffff');
-        let trackGroup = _.groupBy(rmtTracks, (track) => track.participantId);
-        console.log("TrackGroup: ", trackGroup);
-        console.log('%c ***********************', 'background: #8878c3; color: #ffffff');
-      }
-    }
-  }, [rmtTracks])
 
   //On connect method
   const connect = () => {
@@ -156,7 +138,22 @@ export const Join = () => {
     if(track.isLocal() === true)
       dispatch(setLocalTracks([...localTracks, trackInfo]));
     else{
-     setRmtTracks( prevRmtTracks => [...prevRmtTracks, trackInfo]);
+      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
+      console.log("Adding remote Track");
+      console.log("[PARTICIPANT ID]: ", trackInfo.participantId);
+      console.log("REMOTE TRACKS: ", remoteTracks);
+      console.log("REMOTETRACKS[PARTICIPANTID]: ", remoteTracks[trackInfo.participantId]);
+      let tracks = remoteTracks[trackInfo.participantId];
+      console.log("Tracks: ", tracks);
+      if(tracks !== undefined){
+        tracks = [...tracks, trackInfo];
+        console.log("New tracks: ", tracks);
+        dispatch(setRemoteTracks(trackInfo));
+      }else{
+        dispatch(setRemoteTracks(trackInfo));
+      }
+      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
+      // dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
     }
   };
 
@@ -184,13 +181,14 @@ export const Join = () => {
     <div className="join-container">
       <div className="video-section">
         <div className="video-container">
-          {
+          {/* {
             isLoaded ? (
               <LocalVideo/>
             ):(
               <div>Loading...</div>
             )
-          }
+          } */}
+          <div>Loading...</div>
         </div>
       </div>
       <div className="conference-info">

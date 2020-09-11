@@ -64,6 +64,9 @@ export const LocalVideo = () => {
             track.detach(videoRef.current);
             track.dispose();
           }
+          break;
+        default:
+          break;
       }
     }else{
       switch(track.type){
@@ -79,6 +82,8 @@ export const LocalVideo = () => {
           if(track && videoRef.current){
             track.attach(videoRef.current);
           }
+          break;
+        default:
           break;
       }
     }

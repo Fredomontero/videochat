@@ -19,12 +19,6 @@ export class RemoteTrack extends React.Component {
         const { trackIds = [], selectedSpeakerDeviceId } = this.props
         this.tracks = _.filter(window.telimed.remoteTracks, (rt) => { return _.indexOf(trackIds, rt.id) !== -1 })
 
-        console.log('%c <<<<<<<<<<<<<<<<<<<<<<<', 'background: #000; color: #f00');
-        console.log("trackIds: ", trackIds);
-        console.log("selectedSpeakerDeviceId: ", selectedSpeakerDeviceId);
-        console.log("window.telimed.remoteTracks: ", window.telimed.remoteTracks);
-        console.log('%c >>>>>>>>>>>>>>>>>>>>>>>', 'background: #000; color: #f00');
-
         let videoTrack = _.find(this.tracks, { type: 'video' })
         let micTrack = _.find(this.tracks, { type: 'audio' })
 

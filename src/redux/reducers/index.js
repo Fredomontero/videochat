@@ -84,9 +84,19 @@ function rootReducer(state = initialState, action){
         error: null 
       };
     case SET_REMOTE_TRACKS:
+      let userID = action.payload.participantId;
+      let updatedTracks = [];
+      if(state.remoteTracks[userID]){
+        if(state.remoteTracks[userID].length >= 2) return;
+        updatedTracks = [...state.remoteTracks[userID]];
+      }
+      updatedTracks.push(action.payload)
       return{
         ...state,
-        remoteTracks: action.payload,
+        remoteTracks: {
+          ...state.remoteTracks,
+          [userID]: updatedTracks
+        },
         error: null 
       };
     case SET_ACTIVE_ROOM_ID:
@@ -101,3 +111,4 @@ function rootReducer(state = initialState, action){
 };
 
 export default rootReducer;
+
