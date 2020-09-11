@@ -28,6 +28,7 @@ export const Join = () => {
   const remoteTracks = useSelector(state => state.remoteTracks);
   const activeRoomId = useSelector(state => state.activeRoomId);
   const [ isLoaded, setIsLoaded ] = React.useState(false);
+  const [ rmtTracks, setRmtTracks ] = React.useState([]);
 
   let jitsiConnection;
   let jitsiConference;
@@ -62,6 +63,23 @@ export const Join = () => {
 
     })
   }, []);
+
+  //Method to group remote tracks
+  React.useEffect(() => {
+    let size = rmtTracks.length;
+    if(size > 0){
+      console.log('%c ***********************', 'background: #3cd070; color: #ffffff');
+      console.log("REMOTE TRACKS");
+      console.log("Just add: ", rmtTracks[size-1]);
+      console.log('%c ***********************', 'background: #3cd070; color: #ffffff');
+      if(size%2 === 0){
+        console.log('%c ***********************', 'background: #8878c3; color: #ffffff');
+        let trackGroup = _.groupBy(rmtTracks, (track) => track.participantId);
+        console.log("TrackGroup: ", trackGroup);
+        console.log('%c ***********************', 'background: #8878c3; color: #ffffff');
+      }
+    }
+  }, [rmtTracks])
 
   //On connect method
   const connect = () => {
@@ -138,17 +156,7 @@ export const Join = () => {
     if(track.isLocal() === true)
       dispatch(setLocalTracks([...localTracks, trackInfo]));
     else{
-      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
-      console.log("Adding remote Track");
-      console.log('%c ***********************', 'background: #d9004c; color: #ffffff');
-      let tracks = remoteTracks[trackInfo.participantId];
-      if(tracks !== undefined){
-        tracks = [...tracks, trackInfo];
-        dispatch(setRemoteTracks([...remoteTracks, {[trackInfo.participantId]: tracks }]));
-      }else{
-        dispatch(setRemoteTracks([...remoteTracks, {[trackInfo.participantId]: tracks }]));
-      }
-      // dispatch(setRemoteTracks([...remoteTracks, trackInfo]));
+     setRmtTracks( prevRmtTracks => [...prevRmtTracks, trackInfo]);
     }
   };
 

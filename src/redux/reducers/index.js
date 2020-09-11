@@ -14,7 +14,7 @@ import {
 
 const initialState = {
   page: 'home',
-  meetingCode: 'test',
+  meetingCode: 'testcode',
   deviceList: [],
   micId: null,
   videoId: null,
@@ -23,7 +23,7 @@ const initialState = {
   connection: null,
   conference: null,
   localTracks: [],
-  remoteTracks: [],
+  remoteTracks: {},
   activeRoomId: null,
 };
 
