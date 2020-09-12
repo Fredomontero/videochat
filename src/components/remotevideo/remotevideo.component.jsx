@@ -24,6 +24,7 @@ export const RemoteVideo = (props) => {
   //Emulate component did update
   React.useEffect(() => {
     //TODO: Need to see if the remote track for each remote component has been changed, if thats the case, lets rerender
+    console.log("remoteTracks has chanegd");
   }, [remoteTracks]);
 
   //Method for updating remote tracks
