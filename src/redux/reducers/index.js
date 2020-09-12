@@ -87,7 +87,7 @@ function rootReducer(state = initialState, action){
       let userID = action.payload.participantId;
       let updatedTracks = [];
       if(state.remoteTracks[userID]){
-        if(state.remoteTracks[userID].length >= 2) return;
+        if(state.remoteTracks[userID].length >= 2) return state;
         updatedTracks = [...state.remoteTracks[userID]];
       }
       updatedTracks.push(action.payload)

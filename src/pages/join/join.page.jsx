@@ -181,14 +181,13 @@ export const Join = () => {
     <div className="join-container">
       <div className="video-section">
         <div className="video-container">
-          {/* {
+          {
             isLoaded ? (
               <LocalVideo/>
             ):(
               <div>Loading...</div>
             )
-          } */}
-          <div>Loading...</div>
+          }
         </div>
       </div>
       <div className="conference-info">
