@@ -1,10 +1,13 @@
 import React from 'react';
 import "./remotevideo.styles.css";
+import { useSelector } from 'react-redux';
 
 export const RemoteVideo = (props) => {
 
   const videoRef = React.createRef();
   const micRef = React.createRef();
+
+  const remoteTracks = useSelector(state => state.remoteTracks);
 
   //emulating the componentDidMount
   React.useEffect(() => {
@@ -17,6 +20,11 @@ export const RemoteVideo = (props) => {
       updateTrack(tracks[index], 'SET');
     }
   }, []);
+
+  //Emulate component did update
+  React.useEffect(() => {
+    //TODO: Need to see if the remote track for each remote component has been changed, if thats the case, lets rerender
+  }, [remoteTracks]);
 
   //Method for updating remote tracks
   const updateTrack = (track, action = 'CLEAR') => {
