@@ -8,6 +8,8 @@ export const RemoteVideo = (props) => {
   const micRef = React.createRef();
 
   const remoteTracks = useSelector(state => state.remoteTracks);
+  const [ rmtTracks, setRmtTracks ] = React.useState([]);
+  const [ userId, setUserId ] = React.useState('');
 
   //emulating the componentDidMount
   React.useEffect(() => {
@@ -17,6 +19,7 @@ export const RemoteVideo = (props) => {
     console.log('%c ***********************', 'background: #000000; color: #fdee00');
     const {tracks} = props;
     for(let index in tracks){
+
       updateTrack(tracks[index], 'SET');
     }
   }, []);
@@ -24,6 +27,8 @@ export const RemoteVideo = (props) => {
   //Emulate component did update
   React.useEffect(() => {
     //TODO: Need to see if the remote track for each remote component has been changed, if thats the case, lets rerender
+    //TODO: 
+    
     console.log("remoteTracks has chanegd");
   }, [remoteTracks]);
 

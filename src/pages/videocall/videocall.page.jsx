@@ -10,9 +10,9 @@ export const VideoCall = () => {
 
   const renderRemoteTracks = () => {
     for( const id in remoteTracks ){
-      console.log('%c ***********************', 'background: #000000; color: #fdee00');
-      console.log("REMOTETRACK TO RENDER: ", remoteTracks[id].length);
-      console.log('%c ***********************', 'background: #000000; color: #fdee00');
+      // console.log('%c ***********************', 'background: #000000; color: #fdee00');
+      // console.log("REMOTETRACK TO RENDER: ", remoteTracks[id].length);
+      // console.log('%c ***********************', 'background: #000000; color: #fdee00');
       if(remoteTracks[id].length < 2)
         return <div>Loading...</div>
       else
