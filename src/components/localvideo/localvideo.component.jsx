@@ -25,6 +25,10 @@ export const LocalVideo = () => {
       for(let track of tracks){
         if( _.indexOf(devicesIds, track.deviceId) !== -1 ){
           setTempLocalTracks( previousState => [...previousState, track] );
+          track.addEventListener(window.JitsiMeetJS.events.track.TRACK_AUDIO_LEVEL_CHANGED, audioLevel => console.log(`Audio Level local: ${audioLevel}`));
+          track.addEventListener(window.JitsiMeetJS.events.track.TRACK_MUTE_CHANGED, () => console.log('local track muted'));
+          track.addEventListener(window.JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED, () => console.log('local track stoped'));
+          track.addEventListener(window.JitsiMeetJS.events.track.TRACK_AUDIO_OUTPUT_CHANGED, deviceId => console.log(`track audio output device was changed to ${deviceId}`));
           conference.addTrack(track)
           .then(response => console.log("Response: ", response))
           .catch(error => console.log("The error is: ", error));
