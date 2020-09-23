@@ -1,11 +1,7 @@
 import { /*put, take, fork,*/call, all, takeEvery } from "redux-saga/effects";
 
-export function* connectionRequest(){
+export function* helloWorld(){
   yield console.log("onConnectionRquest");
-}
-
-export function* onConnectionRequest(){
-  yield takeEvery("CONNECTION_REQUEST", connectionRequest);
 }
 
 export function* onHelloWorld(){

@@ -25,7 +25,9 @@ export const LocalVideo = () => {
       for(let track of tracks){
         if( _.indexOf(devicesIds, track.deviceId) !== -1 ){
           setTempLocalTracks( previousState => [...previousState, track] );
-          conference.addTrack(track);
+          conference.addTrack(track)
+          .then(response => console.log("Response: ", response))
+          .catch(error => console.log("The error is: ", error));
         }
       }
     });

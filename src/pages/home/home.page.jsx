@@ -8,7 +8,7 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   const joinMeeting = () => {
-    dispatch(setPage("join"));
+    dispatch(setPage("video"));
   }
 
   return(
