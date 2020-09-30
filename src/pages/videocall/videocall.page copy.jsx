@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import "./videocall.styles.css" ;
-import { Typography, Grid } from '@material-ui/core';
 import { LocalVideo } from "../../components/localvideo/localvideo.component";
 import { RemoteVideo } from "../../components/remotevideo/remotevideo.component";
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,14 +15,11 @@ import {
   setConference,
   setRemoteTracks,
   setLocalTracks,
-  setActiveRoomId,
-  removeRemoteTrack
+  setActiveRoomId
 } from "../../redux/actions/video.actions";
-import { useStyles } from './videocall.styles';
 
 export const VideoCall = () => {
 
-  const classes = useStyles();
 
   const dispatch = useDispatch();
   const remoteTracks = useSelector(state => state.remoteTracks);
@@ -83,6 +79,17 @@ export const VideoCall = () => {
 
     dispatch(setConnection(jitsiConnection));
 
+  };
+
+  const renderRemoteTracks = () => {
+    const content= [];
+    for( const id in remoteTracks ){
+      if(remoteTracks[id].length < 2)
+        return <div>Loading...</div>
+      else
+        content.push(<RemoteVideo tracks={remoteTracks[id]} />)
+    }
+    return content;
   };
 
   //On connection success
@@ -160,81 +167,33 @@ export const VideoCall = () => {
     }
   };
 
-  //Event handler for removed tracks REMOVE--TRACK
+  //Event handler for removed tracks
   const onRoomTrackRemoved = (track, ...args) => {
     console.log("On room track removed");
-    console.log("Track removed: ", track.ownerEndpointId);
-    dispatch(removeRemoteTrack(track));
+    console.log("Track removed: ", track);
     console.log("More data: ", args);
   };
 
-  const calculateWidth = () => {
-    let n;
-    let user = [...Object.values(remoteTracks)];
-    if(user.length === 1)
-      n = 12;
-    else if(user.length > 1 && user.length < 5)
-      n = 6;
-    else if(user.length > 4 && user.length < 10)
-      n = 4;
-    else if(user.length < 17)
-      n = 3;
-    return n;
-  };
-
-  const calculateHeight = () => {
-    let height;
-    let user = [...Object.values(remoteTracks)];
-    if(user.length === 1)
-      height = 100;
-    else if(user.length > 1 && user.length < 7)
-      height = 50;
-    else if(user.length < 13)
-      height = 100/3;
-    else if(user.length < 17)
-      height = 25;
-    return height;
-  }
-
-  const renderRemoteTracks = () => {
-    const content= [];
-    for( const id in remoteTracks ){
-      if(remoteTracks[id].length < 2)
-        return <div>Loading...</div>
-      else
-        content.push(
-          <Grid item container xs={calculateWidth()} className={classes.participant} style={{height: `${calculateHeight()}%`}} id={`${id}`}>
-            <RemoteVideo tracks={remoteTracks[id]} />
-          </Grid>
-        )
-    }
-    return content;
-  };
-
   return(
-    <Grid 
-      container 
-      className={classes.videoCallContainer}
-    >
-      <Grid item container className={classes.body}>
-        <div className={classes.floatingVideo} >
-          {
+    <div className="videocall-container">
+      <div className="floating-local-video">
+      {
             isLoaded ? (
               <LocalVideo/>
             ):(
               <div>Loading...</div>
             )
           }
+      </div>
+      <div className="videocall-body">
+        <div className="remote-videos">
+            {
+              renderRemoteTracks()
+            }
         </div>
-        <Grid item container className={classes.participantsContainer} alignItems="center">
-          {
-            renderRemoteTracks()
-          }
-        </Grid>
-      </Grid>
-      <Grid item container className={classes.controlBar}>
-        <Typography>This is the footer</Typography>
-      </Grid>
-    </Grid>
+      </div>
+      <div className="videocall-footer">
+      </div>
+    </div>
   )
 };

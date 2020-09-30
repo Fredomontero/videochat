@@ -9,12 +9,13 @@ import {
   SET_CONFERENCE,
   SET_LOCAL_TRACKS,
   SET_REMOTE_TRACKS,
-  SET_ACTIVE_ROOM_ID
+  SET_ACTIVE_ROOM_ID,
+  REMOVE_REMOTE_TRACK
 } from "../actions/video.actions.types";
 
 const initialState = {
   page: 'home',
-  meetingCode: 'testcode',
+  meetingCode: 'testcodesdsd',
   deviceList: [],
   micId: null,
   videoId: null,
@@ -111,6 +112,34 @@ function rootReducer(state = initialState, action){
         activeRoomId: action.payload,
         error: null 
       };
+    case REMOVE_REMOTE_TRACK: 
+      console.log("Action Payload: ", action.payload);
+      let participantId = action.payload.ownerEndpointId;
+      let type = action.payload.type;
+      console.log("** The participant ID is: ", participantId);
+      console.log("** The type is: ", type);
+      let newTracks = state.remoteTracks[participantId].filter(track => track.type !== type);
+      console.log("The filtered tracks are: ", newTracks);
+      let tempTracks;
+      if(newTracks.length > 0){
+        tempTracks = {
+          ...state.remoteTracks,
+          [participantId]: newTracks
+        }
+      }else{
+        console.log("Inside Else, let's remove the property");
+        tempTracks = {...state.remoteTracks};
+        delete tempTracks[participantId];
+      }
+      console.log('%c ***********************', 'background: #fdee00; color: #ff0000');
+      console.log("Updating this: ", state.remoteTracks);
+      console.log("with this: ", tempTracks);
+      console.log('%c ***********************', 'background: #fdee00; color: #ff0000');
+      return {
+        ...state,
+        remoteTracks: tempTracks,
+        error: null
+      }
     default:
       return state;
   }

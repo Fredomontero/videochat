@@ -1,6 +1,15 @@
-.remotev-container{
-  color: #9457eb;
-  border: 1px solid #9457eb;
-  width: 300px;
-  height: 200px;
+.video-tag{
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  background-color: blue;
+}
+
+.userID{
+  position: relative;
+  background-color: #000000;
+  color: crimson;
+  bottom: 30px;
+  left: 5px;
+  font-size: 20px;
 }

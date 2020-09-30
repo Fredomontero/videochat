@@ -74,10 +74,10 @@ export const RemoteVideo = (props) => {
   };
 
   return(
-    <div className="remotev-container">
-      <video autoPlay='1' ref={videoRef}/>
+    <React.Fragment>
+      <video className='video-tag' autoPlay='1' ref={videoRef} />
       <audio autoPlay='1' ref={micRef} />
-      <p>{tracks[0].participantId}</p>
-    </div>
+      <div className="userID" >{tracks[0].participantId}</div>
+    </React.Fragment>
   )
 };
